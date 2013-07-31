@@ -1,22 +1,28 @@
 from inliner import inline
 
-@inline
-def test():
-    return 42
 
-@inline
-def addNumbers(arg1, arg2=0, arg3=4):
-    return arg1 + arg2 + arg3
+class SillyAdder(object):
+    def __init__(self, arg1, arg2):
+        self.arg1 = arg1
+        self.arg2 = arg2
 
-@inline
-def concatString(arg1, arg2):
-    return int(arg1 + arg2)
+    @inline
+    def GetArg1(self):
+        return self.arg1
+
+    @inline
+    def GetArg2(self):
+        return self.arg2
+
+    def AddNumbers(self):
+        return self.GetArg1() + self.GetArg2()
 
 
 def inline_test():
-    return test() + addNumbers(0, arg2=0) + concatString("1", "0")
+    adder = SillyAdder(1, 2)
+    print adder.AddNumbers()
 
 
 import dis
-dis.dis(inline_test)
+dis.dis(SillyAdder.AddNumbers)
 print inline_test()

@@ -1,3 +1,4 @@
+from inliner import utils
 import ast
 
 
@@ -7,4 +8,5 @@ class InlineMethodLocator(ast.NodeVisitor):
 
     def visit_FunctionDef(self, node):
         if any(filter(lambda d: d.id == "inline", node.decorator_list)):
-            self.functions[node.name] = node
+            func_name = utils.getFunctionName(node)
+            self.functions[func_name] = node
