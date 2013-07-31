@@ -19,7 +19,7 @@ class BaseFunctionHandler(object):
         default_offset = len(args.args) - len(args.defaults)
 
         arg_mapping = OrderedDict()
-        for idx, arg in enumerate(args.args):
+        for idx, arg in enumerate(arg for arg in args.args if not arg.id == "self"):
             arg_mapping[arg.id] = None
             if idx >= default_offset:
                 arg_mapping[arg.id] = args.defaults[idx - default_offset]
@@ -30,8 +30,10 @@ class BaseFunctionHandler(object):
         for keyword in call_object.keywords:
             arg_mapping[keyword.arg] = keyword.value
 
-        if "self" in arg_mapping:
+        if len([arg for arg in args.args if arg.id == "self"]):
             # Ok, get the name of "self" (the instance of the class we are using)
-            arg_mapping["self"] = call_object.func.value
+            new_mapping = OrderedDict({"self": call_object.func.value})
+            new_mapping.update(arg_mapping)
+            arg_mapping = new_mapping
 
         return ParamReplacer(arg_mapping).visit(target_node)

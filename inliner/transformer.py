@@ -6,6 +6,13 @@ class FunctionInliner(ast.NodeTransformer):
     def __init__(self, functions_to_inline):
         self.inline_funcs = functions_to_inline
 
+    def visit_Expr(self, node):
+        node = self.generic_visit(node)
+        if isinstance(node.value, ast.Assign):
+            # A function call has turned into an assignment. Just return that instead
+            return node.value
+        return node
+
     def visit_Call(self, node):
         func = node.func
         func_name = utils.getFunctionName(func)

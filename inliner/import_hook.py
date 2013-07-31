@@ -1,6 +1,7 @@
 from astmonkey.transformers import ParentNodeTransformer
 from inliner.searcher import InlineMethodLocator
 from inliner.transformer import FunctionInliner
+from inliner import utils
 import sys
 import imp
 import ast
@@ -33,6 +34,7 @@ class InlineImporter(object):
         module.__package__ = fullname.rpartition('.')[0]
         module.__file__ = file.name
         tree = ast.fix_missing_locations(tree)
+
         code = compile(tree, file.name, "exec")
 
         exec code in module.__dict__
