@@ -12,9 +12,11 @@ class ParamReplacer(ast.NodeTransformer):
 
 class BaseFunctionHandler(object):
     def replace_params_with_objects(self, target_node, inline_func, call_object):
-        # target_node is some AST object, could be the return value of a function we are inlining.
-        # We need to inspect its parameters and create a dictionary then use ParamReplacer to replace
-        # all instances of those parameters with the objects being passed in
+        """
+        target_node is some AST object, could be the return value of a function we are inlining.
+        We need to inspect its parameters and create a dictionary then use ParamReplacer to replace
+        all instances of those parameters with the local references to the objects being passed in
+        """
         args = inline_func.args
         default_offset = len(args.args) - len(args.defaults)
 

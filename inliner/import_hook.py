@@ -1,7 +1,6 @@
 from astmonkey.transformers import ParentNodeTransformer
 from inliner.searcher import InlineMethodLocator
 from inliner.transformer import FunctionInliner
-from inliner import utils
 import sys
 import imp
 import ast
