@@ -13,13 +13,13 @@ class SillyGetterSetter(object):
     def getStuff(self):
         return self.stuff
 
+@inline
+def add_stuff(x, y):
+    return x + y
 
-def inline_test():
-    a = SillyGetterSetter(1)
-    a.setStuff(None)
-
-    if a.getStuff() is None:
-        return True
+def add_lots_of_numbers():
+    for i in xrange(10):
+         add_stuff(i, i+1)
 
 import dis
-dis.dis(inline_test)
+dis.dis(add_lots_of_numbers)
