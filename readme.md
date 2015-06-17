@@ -1,4 +1,4 @@
-Inliner inlines Python function calls.
+Inliner inlines Python function calls. Proof of concept for [this blog post](http://tomforb.es/automatically-inline-python-function-calls)
 
     from inliner import inline
 
